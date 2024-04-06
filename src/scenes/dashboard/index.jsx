@@ -1,284 +1,186 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useState } from 'react';
+import { Box, IconButton, Typography, TextField, Button } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
-import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
-import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
-
+import { Help, Margin } from "@mui/icons-material";
+import Slider from '../slider/slidern'
 const Dashboard = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = tokens('light');
+
+  const [brandNameAnswer, setBrandNameAnswer] = useState("");
+  const [showBrandNameBox, setShowBrandNameBox] = useState(false);
+
+  const [scriptAnswer, setScriptAnswer] = useState("");
+  const [showScriptBox, setShowScriptBox] = useState(false);
+
+  const handleBrandNameChange = (event) => {
+    setBrandNameAnswer(event.target.value);
+  };
+
+  const handleScriptChange = (event) => {
+    setScriptAnswer(event.target.value);
+  };
+
+  const handleBrandNameIconButtonClick = () => {
+    setShowBrandNameBox(!showBrandNameBox);
+    setShowScriptBox(false);
+  };
+
+  const handleScriptIconButtonClick = () => {
+    setShowScriptBox(!showScriptBox);
+    setShowBrandNameBox(false);
+  };
+
+  const handleBrandNameSubmit = () => {
+    // Handle submit logic for brand name here
+  };
+
+  const handleScriptGenerate = () => {
+    // Handle generate logic for script here
+  };
 
   return (
     <Box m="20px">
-      {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-        <Box>
-          <Button
+      {/* Brand Name Question Box */}
+      <Box mt={2} display="flex" alignItems="center">
+        <Box sx={{ width: "40%" }}>
+          <Typography variant="h6" gutterBottom>
+            What is your brand name?
+          </Typography>
+          <TextField
+            id="brand-name-input"
+            label="Answer"
+            value={brandNameAnswer}
+            onChange={handleBrandNameChange}
+            variant="outlined"
+            fullWidth
+            className="brand-name-text-area" // Add classname to differentiate
+          />
+        </Box>
+        <IconButton
+          sx={{
+            position: "relative",
+            top: "10px",
+            left: "10px",
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            "&:hover": { backgroundColor: colors.blueAccent[800] },
+          }}
+          onClick={handleBrandNameIconButtonClick}
+        >
+          <Help />
+        </IconButton>
+        {showBrandNameBox && (
+          <Box
+            id="brand-name-box"
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
+              position: "fixed",
+              top: "33%",
+              right: "120px",
+              transform: "translateY(-50%)",
+              width: "30%",
+              backgroundColor: "#141B2D",
+              p: "1rem",
+              borderRadius: "0.5rem",
+              boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.2)"
             }}
           >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+            <Typography variant="h4" gutterBottom>
+              Our Snappy wants to know
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              What is your theme?
+            </Typography>
+            <TextField
+              id="theme-input"
+              label="e.g. Sports, Facts"
+              value={brandNameAnswer}
+              onChange={handleBrandNameChange}
+              variant="outlined"
+              fullWidth
+              className="theme-text-area" // Add classname to differentiate
+            />
+            <Button variant="contained" style={{ marginTop: "15px", backgroundColor: "blue" }} onClick={handleBrandNameSubmit}>
+              Submit
+            </Button>
+          </Box>
+        )}
       </Box>
 
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-      >
-        {/* ROW 1 */}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress="0.75"
-            increase="+14%"
-            icon={
-              <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
+      {/* Script Question Box */}
+      <Box mt={2} display="flex" alignItems="center">
+        <Box sx={{ width: "40%" }}>
+          <Typography variant="h6" gutterBottom>
+            What is your Script?
+          </Typography>
+          <TextField
+            id="script-input"
+            label="Answer"
+            value={scriptAnswer}
+            onChange={handleScriptChange}
+            variant="outlined"
+            fullWidth
+            className="script-text-area" // Add classname to differentiate
           />
         </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+        <IconButton
+          sx={{
+            position: "relative",
+            top: "10px",
+            left: "10px",
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            "&:hover": { backgroundColor: colors.blueAccent[800] },
+          }}
+          onClick={handleScriptIconButtonClick}
         >
-          <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="32,441"
-            subtitle="New Clients"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-
-        {/* ROW 2 */}
-        <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
+          <Help />
+        </IconButton>
+        {showScriptBox && (
           <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
+            id="script-box"
+            sx={{
+              position: "fixed",
+              top: "33%",
+              right: "120px",
+              transform: "translateY(-50%)",
+              width: "30%",
+              backgroundColor: "#141B2D",
+              p: "1rem",
+              borderRadius: "0.5rem",
+              boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.2)"
+            }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          overflow="auto"
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
-          >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+            <Typography variant="h4" gutterBottom>
+              Do our Snappy generate your script?
             </Typography>
+            <TextField
+              id="script-input"
+              label="e.g. gaming, driving"
+              value={scriptAnswer}
+              onChange={handleScriptChange}
+              variant="outlined"
+              fullWidth
+              className="script-text-area" // Add classname to differentiate
+            />
+            <Button variant="contained" style={{ marginTop: "15px", backgroundColor: "blue" }} onClick={handleScriptGenerate}>
+              Generate
+            </Button>
           </Box>
-          {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
-            </Box>
-          ))}
-        </Box>
+        )}
+      </Box>
 
-        {/* ROW 3 */}
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          p="30px"
-        >
-          <Typography variant="h5" fontWeight="600">
-            Campaign
-          </Typography>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
-          >
-            <ProgressCircle size="125" />
-            <Typography
-              variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
-            >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
-          >
-            Sales Quantity
-          </Typography>
-          <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          padding="30px"
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ marginBottom: "15px" }}
-          >
-            Geography Based Traffic
-          </Typography>
-          <Box height="200px">
-            <GeographyChart isDashboard={true} />
-          </Box>
-        </Box>
+      <slider/>
+
+      {/* Generate Button */}
+      <Box mt={2} display="flex" >
+        <Button variant="contained" style={{ backgroundColor: "blue" }} onClick={handleScriptGenerate}>
+          Generate
+        </Button>
       </Box>
     </Box>
+ 
   );
+  
 };
 
 export default Dashboard;
